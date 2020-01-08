@@ -144,17 +144,17 @@ function getRotation() {
     rotationZ = parseFloat(document.getElementById("rot_z").value);
 }
 
-function rotationXDecrease() {rotationXSpeed = -1;}
+function rotationXDecrease() {rotationXSpeed = -.1;}
 
-function rotationXIncrease() {rotationXSpeed = 1;}
+function rotationXIncrease() {rotationXSpeed = .1;}
 
-function rotationYDecrease() {rotationYSpeed = -1;}
+function rotationYDecrease() {rotationYSpeed = -.1;}
 
-function rotationYIncrease() {rotationYSpeed = 1;}            
+function rotationYIncrease() {rotationYSpeed = .1;}            
 
-function rotationZDecrease() {rotationZSpeed = -1;}
+function rotationZDecrease() {rotationZSpeed = -.1;}
 
-function rotationZIncrease() {rotationZSpeed = 1;}            
+function rotationZIncrease() {rotationZSpeed = .1;}            
 
 function rotationMoveStop() {
     rotationXSpeed = 0;
@@ -186,9 +186,9 @@ function updateRotationInputFields() {
 function refreshRotation() {
     if (isRotationMoving()) {updateRotation();}
     if (isAutoRotation) {autoRotate();}
-    cube.rotation.x = THREE.Math.degToRad(rotationX);
-    cube.rotation.y = THREE.Math.degToRad(rotationY);
-    cube.rotation.z = THREE.Math.degToRad(rotationZ);
+    cube.rotation.x = rotationX;
+    cube.rotation.y = rotationY;
+    cube.rotation.z = rotationZ;
 }
 
 function resetRotation() {
@@ -200,10 +200,10 @@ function resetRotation() {
 
 
 function autoRotate() {
-    rotationX += .5;
-    rotationY += .5;
-    if (rotationX > 360) {rotationX = 0;}
-    if (rotationY > 360) {rotationY = 0;}
+    rotationX += .01;
+    rotationY += .01;
+    if (rotationX > Math.PI*2) {rotationX = 0;}
+    if (rotationY > Math.PI*2) {rotationY = 0;}
     updateRotationInputFields();
 }
 
