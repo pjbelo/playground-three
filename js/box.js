@@ -1,9 +1,10 @@
-var pos_x = 0;
-var pos_y = 0;
-var pos_z = 0;
-var pos_x_speed = 0;
-var pos_y_speed = 0;
-var pos_z_speed = 0;
+// position variables
+var positionX = 0;
+var positionY = 0;
+var positionZ = 0;
+var positionXSpeed = 0;
+var positionYSpeed = 0;
+var positionZSpeed = 0;
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -28,107 +29,101 @@ camera.position.z = 5;
 
 function animate() {
     requestAnimationFrame( animate );
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    if (pos_moving()) {
-        update_position(); 
-    }
-    refresh_position();
+    refreshRotation();
+    refreshPosition();
     renderer.render( scene, camera );
 }
 
-function get_position() {
-    pos_x = parseFloat(document.getElementById("pos_x").value);
-    pos_y = parseFloat(document.getElementById("pos_y").value);
-    pos_z = parseFloat(document.getElementById("pos_z").value);
+function getPosition() {
+    positionX = parseFloat(document.getElementById("pos_x").value);
+    positionY = parseFloat(document.getElementById("pos_y").value);
+    positionZ = parseFloat(document.getElementById("pos_z").value);
 }
 
 
-function pos_x_decrease() {
-    pos_x_speed = -.1;
+function positionXDecrease() {positionXSpeed = -.1;}
+
+function positionXIncrease() {positionXSpeed = .1;}
+
+function positionYDecrease() {positionYSpeed = -.1;}
+
+function positionYIncrease() {positionYSpeed = .1;}            
+
+function positionZDecrease() {positionZSpeed = -.1;}
+
+function positionZIncrease() {positionZSpeed = .1;}            
+
+function positionMoveStop() {
+    positionXSpeed = 0;
+    positionYSpeed = 0;
+    positionZSpeed = 0;             
 }
 
-function pos_x_increase() {
-    pos_x_speed = .1;              
-}
-
-function pos_y_decrease() {
-    pos_y_speed = -.1;             
-}
-
-function pos_y_increase() {
-    pos_y_speed = .1;            
-}            
-
-function pos_z_decrease() {
-    pos_z_speed = -.1;         
-}
-
-function pos_z_increase() {
-    pos_z_speed = .1;       
-}            
-
-function pos_stop() {
-    pos_x_speed = 0;
-    pos_y_speed = 0;
-    pos_z_speed = 0;             
-}
-
-function pos_moving() {
-    var pos_moving = false;
-    if (pos_x_speed != 0 || pos_y_speed != 0 || pos_z_speed != 0) {
-        pos_moving = true;
+function isPositionMoving() {
+    var isPositionMoving = false;
+    if (positionXSpeed != 0 || positionYSpeed != 0 || positionZSpeed != 0) {
+        isPositionMoving = true;
     }
-    return pos_moving;
+    return isPositionMoving;
 }
 
-function update_position() {
-    pos_x += pos_x_speed;
-    document.getElementById("pos_x").value = pos_x.toFixed(3);
-    pos_y += pos_y_speed;
-    document.getElementById("pos_y").value = pos_y.toFixed(3);
-    pos_z += pos_z_speed;
-    document.getElementById("pos_z").value = pos_z.toFixed(3);
+function updatePosition() {
+    positionX += positionXSpeed;
+    document.getElementById("pos_x").value = positionX.toFixed(3);
+    positionY += positionYSpeed;
+    document.getElementById("pos_y").value = positionY.toFixed(3);
+    positionZ += positionZSpeed;
+    document.getElementById("pos_z").value = positionZ.toFixed(3);
 }
 
-function refresh_position() {
-    cube.position.x = pos_x;
-    cube.position.y = pos_y;
-    cube.position.z = pos_z;
+function refreshPosition() {
+    if (isPositionMoving()) {
+        updatePosition(); 
+    }
+    cube.position.x = positionX;
+    cube.position.y = positionY;
+    cube.position.z = positionZ;
 }
 
-function reset_position() {
-    pos_x = 0;
-    pos_y = 0;
-    pos_z = 0;
-    update_position();
+function resetPosition() {
+    positionX = 0;
+    positionY = 0;
+    positionZ = 0;
+    updatePosition();
 }
+
+function refreshRotation() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+}
+
+
 
 
 // get new position values if input values have changed
-document.getElementById("pos_x").addEventListener("change", get_position);
-document.getElementById("pos_y").addEventListener("change", get_position);
-document.getElementById("pos_z").addEventListener("change", get_position);
+document.getElementById("pos_x").addEventListener("change", getPosition);
+document.getElementById("pos_y").addEventListener("change", getPosition);
+document.getElementById("pos_z").addEventListener("change", getPosition);
 
-document.getElementById("reset_pos").addEventListener("click", reset_position);
+document.getElementById("reset_pos").addEventListener("click", resetPosition);
 
 
 // increase or decrease x values while clicking button
-document.getElementById("pos_x_d").addEventListener("mousedown", pos_x_decrease);
-document.getElementById("pos_x_d").addEventListener("mouseup", pos_stop);
-document.getElementById("pos_x_i").addEventListener("mousedown", pos_x_increase);
-document.getElementById("pos_x_i").addEventListener("mouseup", pos_stop);
+document.getElementById("pos_x_d").addEventListener("mousedown", positionXDecrease);
+document.getElementById("pos_x_d").addEventListener("mouseup", positionMoveStop);
+document.getElementById("pos_x_i").addEventListener("mousedown", positionXIncrease);
+document.getElementById("pos_x_i").addEventListener("mouseup", positionMoveStop);
 
 // increase or decrease y values while clicking button
-document.getElementById("pos_y_d").addEventListener("mousedown", pos_y_decrease);
-document.getElementById("pos_y_d").addEventListener("mouseup", pos_stop);
-document.getElementById("pos_y_i").addEventListener("mousedown", pos_y_increase);
-document.getElementById("pos_y_i").addEventListener("mouseup", pos_stop);
+document.getElementById("pos_y_d").addEventListener("mousedown", positionYDecrease);
+document.getElementById("pos_y_d").addEventListener("mouseup", positionMoveStop);
+document.getElementById("pos_y_i").addEventListener("mousedown", positionYIncrease);
+document.getElementById("pos_y_i").addEventListener("mouseup", positionMoveStop);
 
 // increase or decrease z values while clicking button
-document.getElementById("pos_z_d").addEventListener("mousedown", pos_z_decrease);
-document.getElementById("pos_z_d").addEventListener("mouseup", pos_stop);
-document.getElementById("pos_z_i").addEventListener("mousedown", pos_z_increase);
-document.getElementById("pos_z_i").addEventListener("mouseup", pos_stop);
+document.getElementById("pos_z_d").addEventListener("mousedown", positionZDecrease);
+document.getElementById("pos_z_d").addEventListener("mouseup", positionMoveStop);
+document.getElementById("pos_z_i").addEventListener("mousedown", positionZIncrease);
+document.getElementById("pos_z_i").addEventListener("mouseup", positionMoveStop);
 
 animate();
