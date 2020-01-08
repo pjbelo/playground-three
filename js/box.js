@@ -6,6 +6,15 @@ var positionXSpeed = 0;
 var positionYSpeed = 0;
 var positionZSpeed = 0;
 
+// rotation variables
+var rotationX = 0;
+var rotationY = 0;
+var rotationZ = 0;
+var rotationXSpeed = 0;
+var rotationYSpeed = 0;
+var rotationZSpeed = 0;
+var isAutoRotation = true;
+
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
@@ -34,12 +43,14 @@ function animate() {
     renderer.render( scene, camera );
 }
 
+
+//////////// Position /////////////
+
 function getPosition() {
     positionX = parseFloat(document.getElementById("pos_x").value);
     positionY = parseFloat(document.getElementById("pos_y").value);
     positionZ = parseFloat(document.getElementById("pos_z").value);
 }
-
 
 function positionXDecrease() {positionXSpeed = -.1;}
 
@@ -69,10 +80,14 @@ function isPositionMoving() {
 
 function updatePosition() {
     positionX += positionXSpeed;
-    document.getElementById("pos_x").value = positionX.toFixed(3);
     positionY += positionYSpeed;
-    document.getElementById("pos_y").value = positionY.toFixed(3);
     positionZ += positionZSpeed;
+    updatePositionInputFields();
+}
+
+function updatePositionInputFields() {
+    document.getElementById("pos_x").value = positionX.toFixed(3);
+    document.getElementById("pos_y").value = positionY.toFixed(3);
     document.getElementById("pos_z").value = positionZ.toFixed(3);
 }
 
@@ -91,13 +106,6 @@ function resetPosition() {
     positionZ = 0;
     updatePosition();
 }
-
-function refreshRotation() {
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-}
-
-
 
 
 // get new position values if input values have changed
@@ -125,5 +133,114 @@ document.getElementById("pos_z_d").addEventListener("mousedown", positionZDecrea
 document.getElementById("pos_z_d").addEventListener("mouseup", positionMoveStop);
 document.getElementById("pos_z_i").addEventListener("mousedown", positionZIncrease);
 document.getElementById("pos_z_i").addEventListener("mouseup", positionMoveStop);
+
+
+
+//////////// Rotation /////////////
+
+function getRotation() {
+    rotationX = parseFloat(document.getElementById("rot_x").value);
+    rotationY = parseFloat(document.getElementById("rot_y").value);
+    rotationZ = parseFloat(document.getElementById("rot_z").value);
+}
+
+function rotationXDecrease() {rotationXSpeed = -1;}
+
+function rotationXIncrease() {rotationXSpeed = 1;}
+
+function rotationYDecrease() {rotationYSpeed = -1;}
+
+function rotationYIncrease() {rotationYSpeed = 1;}            
+
+function rotationZDecrease() {rotationZSpeed = -1;}
+
+function rotationZIncrease() {rotationZSpeed = 1;}            
+
+function rotationMoveStop() {
+    rotationXSpeed = 0;
+    rotationYSpeed = 0;
+    rotationZSpeed = 0;             
+}
+
+function isRotationMoving() {
+    var isRotationMoving = false;
+    if (rotationXSpeed != 0 || rotationYSpeed != 0 || rotationZSpeed != 0) {
+        isRotationMoving = true;
+    }
+    return isRotationMoving;
+}
+
+function updateRotation() {
+    rotationX += rotationXSpeed;
+    rotationY += rotationYSpeed;
+    rotationZ += rotationZSpeed;
+    updateRotationInputFields();
+}
+
+function updateRotationInputFields() {
+    document.getElementById("rot_x").value = rotationX.toFixed(1);
+    document.getElementById("rot_y").value = rotationY.toFixed(1);
+    document.getElementById("rot_z").value = rotationZ.toFixed(1);
+}
+
+function refreshRotation() {
+    if (isRotationMoving()) {updateRotation();}
+    if (isAutoRotation) {autoRotate();}
+    cube.rotation.x = THREE.Math.degToRad(rotationX);
+    cube.rotation.y = THREE.Math.degToRad(rotationY);
+    cube.rotation.z = THREE.Math.degToRad(rotationZ);
+}
+
+function resetRotation() {
+    rotationX = 0;
+    rotationY = 0;
+    rotationZ = 0;
+    updateRotation();
+}
+
+
+function autoRotate() {
+    rotationX += .5;
+    rotationY += .5;
+    if (rotationX > 360) {rotationX = 0;}
+    if (rotationY > 360) {rotationY = 0;}
+    updateRotationInputFields();
+}
+
+function updateAutoRotation() {
+    if (document.getElementById("is_auto_rotation").checked){
+        isAutoRotation = true;
+    } else {
+        isAutoRotation = false;
+    }
+}
+
+// get new rotation values if input values have changed
+document.getElementById("rot_x").addEventListener("change", getRotation);
+document.getElementById("rot_y").addEventListener("change", getRotation);
+document.getElementById("rot_z").addEventListener("change", getRotation);
+
+// increase or decrease x values while clicking button
+document.getElementById("rot_x_d").addEventListener("mousedown", rotationXDecrease);
+document.getElementById("rot_x_d").addEventListener("mouseup", rotationMoveStop);
+document.getElementById("rot_x_i").addEventListener("mousedown", rotationXIncrease);
+document.getElementById("rot_x_i").addEventListener("mouseup", rotationMoveStop);
+
+// increase or decrease y values while clicking button
+document.getElementById("rot_y_d").addEventListener("mousedown", rotationYDecrease);
+document.getElementById("rot_y_d").addEventListener("mouseup", rotationMoveStop);
+document.getElementById("rot_y_i").addEventListener("mousedown", rotationYIncrease);
+document.getElementById("rot_y_i").addEventListener("mouseup", rotationMoveStop);
+
+// increase or decrease z values while clicking button
+document.getElementById("rot_z_d").addEventListener("mousedown", rotationZDecrease);
+document.getElementById("rot_z_d").addEventListener("mouseup", rotationMoveStop);
+document.getElementById("rot_z_i").addEventListener("mousedown", rotationZIncrease);
+document.getElementById("rot_z_i").addEventListener("mouseup", rotationMoveStop);
+
+document.getElementById("reset_rot").addEventListener("click", resetRotation);
+
+document.getElementById("is_auto_rotation").addEventListener("change", updateAutoRotation);
+
 
 animate();
