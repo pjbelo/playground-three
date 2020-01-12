@@ -7,23 +7,41 @@
 	<body>
         <h2> <a href="index.html">Playground Three</a> </h2>
         
-        <p>X Position:
-        <input id="pos_x" type="number" value="0">
-        <button id ="pos_x_d">-</button>
-        <button id ="pos_x_i">+</button>
-        </p>
-        <p>Y Position:
-        <input id="pos_y" type="number" value="0">
-        <button id ="pos_y_d">-</button>
-        <button id ="pos_y_i">+</button>
-        </p>
-        <p>Z Position:
-        <input id="pos_z" type="number" value="0">
-        <button id ="pos_z_d">-</button>
-        <button id ="pos_z_i">+</button>
+        <p>
+            <span style="font-weight: bold">Position</span>  
+            X:
+            <input id="pos_x" type="number" value="0">
+            <button id ="pos_x_d">-</button>
+            <button id ="pos_x_i">+</button>
+            Y:
+            <input id="pos_y" type="number" value="0">
+            <button id ="pos_y_d">-</button>
+            <button id ="pos_y_i">+</button>
+            Z:
+            <input id="pos_z" type="number" value="0">
+            <button id ="pos_z_d">-</button>
+            <button id ="pos_z_i">+</button>
+    
+            <button id ="reset_pos">Reset Position</button>
         </p>
         <p>
-        <button id ="reset_pos">Reset Position</button>
+            <span style="font-weight: bold">Rotation (Radians)</span>
+            X:
+            <input id="rot_x" type="number" value="0">
+            <button id ="rot_x_d">-</button>
+            <button id ="rot_x_i">+</button>
+            Y:
+            <input id="rot_y" type="number" value="0">
+            <button id ="rot_y_d">-</button>
+            <button id ="rot_y_i">+</button>
+            Z:
+            <input id="rot_z" type="number" value="0">
+            <button id ="rot_z_d">-</button>
+            <button id ="rot_z_i">+</button>
+    
+            <button id ="reset_rot">Reset Rotation</button>
+            <input id="is_auto_rotation" type="checkbox" value="true" checked> Auto-rotation
+                
         </p>
 		<script src="js/three.js"></script>
 		<script src="js/box.js"></script>
