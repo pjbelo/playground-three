@@ -27,7 +27,8 @@ Author: Paulo Belo
 
 Project oriented by: Professor Vitor Cardoso
 
-Programação Web/ Web Programming
+Web Programming 
+
 Master in Web Technologies and Systems 
 
 Open University of Portugal, 2020
