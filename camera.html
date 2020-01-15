@@ -3,69 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Playground Three</title>
-	</head>
+    </head>
+    
 	<body>
-        <h2> <a href="index.html">Playground Three</a> > Camera</h2>
+        <h2> 
+            <a href="index.html">Playground Three</a> > Camera
+        </h2>
         
-        <p>
-            <span style="font-weight: bold">Position</span>  
-            X:
-            <input id="pos_x" type="number" value="0">
-            <button id ="pos_x_d">-</button>
-            <button id ="pos_x_i">+</button>
-            Y:
-            <input id="pos_y" type="number" value="0">
-            <button id ="pos_y_d">-</button>
-            <button id ="pos_y_i">+</button>
-            Z:
-            <input id="pos_z" type="number" value="0">
-            <button id ="pos_z_d">-</button>
-            <button id ="pos_z_i">+</button>
-    
-            <button id ="reset_pos">Reset Position</button>
-        </p>
-        <p>
-            <span style="font-weight:bold">Rotation (Radians)</span>
-            X:
-            <input id="rot_x" type="number" value="0">
-            <button id ="rot_x_d">-</button>
-            <button id ="rot_x_i">+</button>
-            Y:
-            <input id="rot_y" type="number" value="0">
-            <button id ="rot_y_d">-</button>
-            <button id ="rot_y_i">+</button>
-            Z:
-            <input id="rot_z" type="number" value="0">
-            <button id ="rot_z_d">-</button>
-            <button id ="rot_z_i">+</button>
-    
-            <button id ="reset_rot">Reset Rotation</button>                
-        </p>
-        <p>
-            FOV:
-            <input id="fov" type="number">
-            <button id ="fov_d">-</button>
-            <button id ="fov_i">+</button>
-            Aspect:
-            <input id="aspect" type="number">
-            <button id ="aspect_d">-</button>
-            <button id ="aspect_i">+</button>
-            Near:
-            <input id="near" type="number">
-            <button id ="near_d">-</button>
-            <button id ="near_i">+</button>
-            Far:
-            <input id="far" type="number">
-            <button id ="far_d">-</button>
-            <button id ="far_i">+</button>
-
-        </p>
-        <p>            
-            <input id="is_cube_auto_rotation" type="checkbox" value="true" checked> Cube Auto-rotation
-        </p>
-
     </body>
 
-    <script src="js/three.js"></script>
-    <script src="js/camera.js"></script>
+    <script type="text/javascript" src="/build/three.min.js"></script>
+    <script type="text/javascript" src="/build/dat.gui.min.js"></script>
+    <script type="text/javascript" src="/js/camera.js"></script>
 </html>
