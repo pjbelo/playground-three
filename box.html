@@ -4,49 +4,15 @@
 		<meta charset="utf-8">
 		<title>Playground Three</title>
 	</head>
-	<body>
-        <h2> <a href="index.html">Playground Three</a> > Box</h2>
-        
-        <p>
-            <span style="font-weight: bold">Position</span>  
-            X:
-            <input id="pos_x" type="number" value="0">
-            <button id ="pos_x_d">-</button>
-            <button id ="pos_x_i">+</button>
-            Y:
-            <input id="pos_y" type="number" value="0">
-            <button id ="pos_y_d">-</button>
-            <button id ="pos_y_i">+</button>
-            Z:
-            <input id="pos_z" type="number" value="0">
-            <button id ="pos_z_d">-</button>
-            <button id ="pos_z_i">+</button>
-    
-            <button id ="reset_pos">Reset Position</button>
-        </p>
-        <p>
-            <span style="font-weight: bold">Rotation (Radians)</span>
-            X:
-            <input id="rot_x" type="number" value="0">
-            <button id ="rot_x_d">-</button>
-            <button id ="rot_x_i">+</button>
-            Y:
-            <input id="rot_y" type="number" value="0">
-            <button id ="rot_y_d">-</button>
-            <button id ="rot_y_i">+</button>
-            Z:
-            <input id="rot_z" type="number" value="0">
-            <button id ="rot_z_d">-</button>
-            <button id ="rot_z_i">+</button>
-    
-            <button id ="reset_rot">Reset Rotation</button>
-            <input id="is_auto_rotation" type="checkbox" value="true" checked> Auto-rotation
-                
-        </p>
-        <p><input id="is_show_plane" type="checkbox" value="true" checked> Show Plane</p>
 
+    <body>
+        <h2> 
+            <a href="index.html">Playground Three</a> > Box
+        </h2>
+        
 	</body>
 
-    <script src="js/three.js"></script>
-    <script src="js/box.js"></script>
+    <script type="text/javascript" src="/build/three.min.js"></script>
+    <script type="text/javascript" src="/build/dat.gui.min.js"></script>
+    <script type="text/javascript" src="/js/box.js"></script>
 </html>
