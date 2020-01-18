@@ -27,7 +27,7 @@ camera.position.z = 5;
 
 // renderer
 var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth-32, window.innerHeight-72);
 renderer.shadowMap.enabled = true; // enable shadows rendering
 document.body.appendChild(renderer.domElement);
 
