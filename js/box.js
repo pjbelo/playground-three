@@ -1,3 +1,4 @@
+import { createModal } from './modal.js';
 
 // variables are defined in an object so they can be also accessed by dat.gui
 var params = {
@@ -13,10 +14,14 @@ var params = {
       color5: '#B90000', // red
       color6: '#FF5900', // orange
     },
+    help: {
+      boxNew: function() { createModal(boxNewText);},
+      boxPosition: function() { createModal(boxPositionText());},
+      boxSize: function() { createModal(boxSizeText());},
+      boxRotation: function() { createModal(boxRotationText());},
+      boxColor: function() { createModal(boxColorText());},
+    }
 }
-
-
-
 
 // scene
 var scene = new THREE.Scene();
@@ -140,6 +145,65 @@ planeFolder.add(plane, 'visible');
 var autoRotationFolder = gui.addFolder('Box autoRotation');
 autoRotationFolder.add(params.box, 'autoRotation');
 autoRotationFolder.open();
+
+var helpFolder = gui.addFolder('Help Code');
+helpFolder.add(params.help, 'boxNew');
+helpFolder.add(params.help, 'boxPosition');
+helpFolder.add(params.help, 'boxSize').name('boxSize (scale)');
+helpFolder.add(params.help, 'boxRotation');
+helpFolder.add(params.help, 'boxColor');
+
+// Help Text
+
+var boxNewText =
+"var boxGeometry = new THREE.BoxGeometry(1, 1, 1);<br>"+
+"// Face color - for this to be used a material's vertexColors property must be set to THREE.FaceColors <br>"+
+"var boxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.FaceColors });<br>"+
+"var box = new THREE.Mesh(boxGeometry, boxMaterial);<br>"+
+"scene.add(box);";
+
+function boxPositionText() {
+  var text =`
+  box.position.x = ${box.position.x};<br>
+  box.position.y = ${box.position.y};<br>
+  box.position.z = ${box.position.z};`;
+  return text;
+}
+
+function boxSizeText() {
+  var text =`
+  box.scale.x = ${box.scale.x};<br>
+  box.scale.y = ${box.scale.y};<br>
+  box.scale.z = ${box.scale.z};`;  
+  return text;
+}
+
+function boxRotationText() {
+  var text =`
+  box.rotation.x = ${box.rotation.x.toFixed(2)};<br>
+  box.rotation.y = ${box.rotation.y.toFixed(2)};<br>
+  box.rotation.z = ${box.rotation.z.toFixed(2)};`;  
+  return text;
+}
+
+function boxColorText() {
+  var text =`
+  // each rectangular face is composed of two triangular faces (Face3)<br>
+  box.geometry.faces[0].color.set(${params.box.color1});<br>
+  box.geometry.faces[1].color.set(${params.box.color1});<br>
+  box.geometry.faces[2].color.set(${params.box.color2});<br>
+  box.geometry.faces[3].color.set(${params.box.color2});<br>
+  box.geometry.faces[4].color.set(${params.box.color3});<br>
+  box.geometry.faces[5].color.set(${params.box.color3});<br>
+  box.geometry.faces[6].color.set(${params.box.color4});<br>
+  box.geometry.faces[7].color.set(${params.box.color4});<br>
+  box.geometry.faces[8].color.set(${params.box.color5});<br>
+  box.geometry.faces[9].color.set(${params.box.color5});<br>
+  box.geometry.faces[10].color.set(${params.box.color6});<br>
+  box.geometry.faces[11].color.set(${params.box.color6});<br>
+  boxGeometry.colorsNeedUpdate = true; // flag to update colors`;
+  return text;
+}
 
 
 animate();
