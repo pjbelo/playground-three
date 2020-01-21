@@ -1,5 +1,5 @@
 # Playground Three
-A place to test your Three.js (WebGL) parameters [WIP]
+A place to test your Three.js (WebGL) parameters
 
 
 [Visit the Live Playground](https://pjbelo.github.io/playground-three/)
