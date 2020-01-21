@@ -1,19 +1,24 @@
+import { createModal } from './modal.js';
 
 // variables are defined in an object so they can be also accessed by dat.gui
 var params = {
-  cube: { autoRotation: true,
-      color1: '#FFD500', // yellow
-      color2: '#009B48', // green
-      color3: '#0045AD', // blue
-      color4: '#FFFFFF', // white
-      color5: '#B90000', // red
-      color6: '#FF5900', // orange
-      },
-  camera: {
-    resetPosition: function() {camera.position.set(0,0,5);},
-    resetRotation: function() {camera.rotation.set(0,0,0);},
-
-  }
+    box: { autoRotation: true,
+        color1: '#FFD500', // yellow
+        color2: '#009B48', // green
+        color3: '#0045AD', // blue
+        color4: '#FFFFFF', // white
+        color5: '#B90000', // red
+        color6: '#FF5900', // orange
+        },
+    camera: {
+      resetPosition: function() {camera.position.set(0,0,5);},
+      resetRotation: function() {camera.rotation.set(0,0,0);},
+    },
+    help: {
+      cameraNew: function() { createModal(cameraNewText());},
+      cameraPosition: function() { createModal(cameraPositionText());},
+      cameraRotation: function() { createModal(cameraRotationText());},
+    }
 }
 
 // scene
@@ -21,7 +26,15 @@ var scene = new THREE.Scene();
 scene.background = new THREE.Color(0x2f7dfb);
 
 // camera
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+var fov = 75;
+// fov — Camera frustum vertical field of view.
+var aspect = window.innerWidth / window.innerHeight;
+// aspect — Camera frustum aspect ratio.
+var near = 0.1;
+// near — Camera frustum near plane.
+var far = 1000;
+// far — Camera frustum far plane.
+var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 5;
 
 // renderer
@@ -29,21 +42,21 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth-32, window.innerHeight-72);
 document.body.appendChild(renderer.domElement);
 
-// cube (box)
-var cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-cubeGeometry.colorsNeedUpdate = true;
-var cubeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.FaceColors });
-var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-scene.add(cube);
+// box
+var boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+boxGeometry.colorsNeedUpdate = true;
+var boxMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.FaceColors });
+var box = new THREE.Mesh(boxGeometry, boxMaterial);
+scene.add(box);
 
 // plane
 var planeGeometry = new THREE.PlaneGeometry(10, 10);
 var planeMaterial = new THREE.MeshPhongMaterial({ 
-                  color: 0xc2c2c2, 
-                  side: THREE.DoubleSide,
-                  opacity: 0.9,
-                  transparent: true
-                });
+                    color: 0xc2c2c2, 
+                    side: THREE.DoubleSide,
+                    opacity: 0.9,
+                    transparent: true
+                  });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.position.y = -1.5;
 plane.rotation.x = 3.1415 / 2;
@@ -51,49 +64,52 @@ scene.add(plane);
 
 // directional light
 function addLight(...pos) {
-const color = 0xFFFFFF;
-const intensity = 1;
-const light = new THREE.DirectionalLight(color, intensity);
-light.position.set(...pos);
-scene.add(light);
+  const color = 0xFFFFFF;
+  const intensity = 1;
+  const light = new THREE.DirectionalLight(color, intensity);
+  light.position.set(...pos);
+  scene.add(light);
 }
 addLight(-1, 2, 4);
 
 refreshColors();
 
 function animate() {
-requestAnimationFrame(animate);
-refreshRotation();
-renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+  refreshRotation();
+  renderer.render(scene, camera);
 }
 
 function refreshRotation() {
-  if (params.cube.autoRotation) { autoRotate(); }
+  if (params.box.autoRotation) { boxAutoRotate(); }
 }
 
-function autoRotate() {
-  cube.rotation.x += .01;
-  cube.rotation.y += .01;
-  if (cube.rotation.x > Math.PI * 2) { cube.rotation.x = 0; }
-  if (cube.rotation.y > Math.PI * 2) { cube.rotation.y = 0; }
+function boxAutoRotate() {
+  box.rotation.x += .01;
+  box.rotation.y += .01;
+  if (box.rotation.x > Math.PI * 2) { box.rotation.x = 0; }
+  if (box.rotation.y > Math.PI * 2) { box.rotation.y = 0; }
+}
+
+function refreshCamera() {
+  camera.updateProjectionMatrix();
 }
 
 function refreshColors() {
-  cube.geometry.faces[0].color.set(params.cube.color1);
-  cube.geometry.faces[1].color.set(params.cube.color1);
-  cube.geometry.faces[2].color.set(params.cube.color2);
-  cube.geometry.faces[3].color.set(params.cube.color2);
-  cube.geometry.faces[4].color.set(params.cube.color3);
-  cube.geometry.faces[5].color.set(params.cube.color3);
-  cube.geometry.faces[6].color.set(params.cube.color4);
-  cube.geometry.faces[7].color.set(params.cube.color4);
-  cube.geometry.faces[8].color.set(params.cube.color5);
-  cube.geometry.faces[9].color.set(params.cube.color5);
-  cube.geometry.faces[10].color.set(params.cube.color6);
-  cube.geometry.faces[11].color.set(params.cube.color6);
-  cubeGeometry.colorsNeedUpdate = true;
+  box.geometry.faces[0].color.set(params.box.color1);
+  box.geometry.faces[1].color.set(params.box.color1);
+  box.geometry.faces[2].color.set(params.box.color2);
+  box.geometry.faces[3].color.set(params.box.color2);
+  box.geometry.faces[4].color.set(params.box.color3);
+  box.geometry.faces[5].color.set(params.box.color3);
+  box.geometry.faces[6].color.set(params.box.color4);
+  box.geometry.faces[7].color.set(params.box.color4);
+  box.geometry.faces[8].color.set(params.box.color5);
+  box.geometry.faces[9].color.set(params.box.color5);
+  box.geometry.faces[10].color.set(params.box.color6);
+  box.geometry.faces[11].color.set(params.box.color6);
+  boxGeometry.colorsNeedUpdate = true;
 }
-
 
 // Set flags only for attributes that you need to update, updates are costly. 
 // Once buffers change, these flags reset automatically back to false. 
@@ -129,21 +145,45 @@ paramsFolder.add(camera, 'far').step(1).onChange( function() {refreshCamera();})
 var planeFolder = gui.addFolder('Plane');
 planeFolder.add(plane, 'visible');
 
-// var colorsFolder = gui.addFolder('Box Colors');
-// colorsFolder.addColor(params.cube, 'color1').onChange( function() {refreshColors();});
-// colorsFolder.addColor(params.cube, 'color2').onChange( function() {refreshColors();});
-// colorsFolder.addColor(params.cube, 'color3').onChange( function() {refreshColors();});
-// colorsFolder.addColor(params.cube, 'color4').onChange( function() {refreshColors();});
-// colorsFolder.addColor(params.cube, 'color5').onChange( function() {refreshColors();});
-// colorsFolder.addColor(params.cube, 'color6').onChange( function() {refreshColors();});
-
 var autoRotationFolder = gui.addFolder('Box autoRotation');
-autoRotationFolder.add(params.cube, 'autoRotation');
+autoRotationFolder.add(params.box, 'autoRotation');
 autoRotationFolder.open();
 
-function refreshCamera() {
-  camera.updateProjectionMatrix();
+var helpFolder = gui.addFolder('Help Code');
+helpFolder.add(params.help, 'cameraNew').name('cameraNew (parameters)');
+helpFolder.add(params.help, 'cameraPosition');
+helpFolder.add(params.help, 'cameraRotation');
+
+// Help Text
+
+function cameraNewText() {
+  var text =`
+  var fov = ${camera.fov.toFixed(0)};<br>
+  // fov — Camera frustum vertical field of view.<br>
+  var aspect = ${camera.aspect.toFixed(2)};<br>
+  // aspect — Camera frustum aspect ratio.<br>
+  var near = ${camera.near.toFixed(2)};<br>
+  // near — Camera frustum near plane.<br>
+  var far = ${camera.far.toFixed(0)};<br>
+  // far — Camera frustum far plane.<br>
+  var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);`;
+return text;
 }
 
+function cameraPositionText() {
+  var text =`
+  camera.position.x = ${camera.position.x.toFixed(2)};<br>
+  camera.position.y = ${camera.position.y.toFixed(2)};<br>
+  camera.position.z = ${camera.position.z.toFixed(2)};`;
+  return text;
+}
+
+function cameraRotationText() {
+  var text =`
+  camera.rotation.x = ${camera.rotation.x.toFixed(2)};<br>
+  camera.rotation.y = ${camera.rotation.y.toFixed(2)};<br>
+  camera.rotation.z = ${camera.rotation.z.toFixed(2)};`;  
+  return text;
+}
 
 animate();
